@@ -1,20 +1,25 @@
-# Zona de conflito intencional: ambos os devs modificar√£o format_task e filter_tasks
+# Zona de conflito intencional: ambos os devs modificar„o format_task e filter_tasks
 
 def format_task(task):
-    status = "[X]" if task["done"] else "[]"
+    status = "[x]" if task["done"] else "[ ]"
     priority = task["priority"].upper()
-    return f"{status} | {priority} | #{task['id']} - {task['title']}"
+    task_id = task["id"]
+    title = task["title"]
+
+    return f"{status} | {priority} | #{task_id} - {title}"
 
 def filter_tasks(tasks, show_done=True, priority=None):
-    filtered_tasks = tasks
+    priority_filter = priority.lower() if priority is not None else None
+    filtered_tasks = []
 
-    if not show_done:
-        filtered_tasks = [t for t in filtered_tasks if not t["done"]]
+    for task in tasks:
+        if not show_done and task["done"]:
+            continue
 
-    if priority is not None:
-        filtered_tasks = [
-            t for t in filtered_tasks
-            if t["priority"].lower() == priority.lower()
-        ]
+        if priority_filter is not None and task["priority"].lower() != priority_filter:
+            continue
+
+        filtered_tasks.append(task)
 
     return filtered_tasks
+    
