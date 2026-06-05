@@ -1,20 +1,20 @@
-# Zona de conflito intencional: ambos os devs modificar�o format_task e filter_tasks
+# Zona de conflito intencional: ambos os devs modificarão format_task e filter_tasks
 
 def format_task(task):
     """
-    Formata uma tarefa para exibi��o.
+    Formata uma tarefa para exibição.
 
-    Exibe o ID, status, prioridade e t�tulo da tarefa
+    Exibe o ID, status, prioridade e título da tarefa
     em uma string formatada.
     """
-    status = "?" if task.get("done") else "?"
+    status = "✓" if task.get("done") else "✗"
     priority = task["priority"].upper()
 
     return f"#{task['id']} | {status} [{priority}] {task['title']}"
 
 def filter_tasks(tasks, show_done=True, priority=None):
     """
-    Filtra tarefas com base no status de conclus�o e prioridade.
+    Filtra tarefas com base no status de conclusão e prioridade.
 
     Args:
         tasks (list): Lista de tarefas.
@@ -25,17 +25,15 @@ def filter_tasks(tasks, show_done=True, priority=None):
     Returns:
         list: Lista de tarefas filtradas.
     """
-    
     filtered_tasks = tasks
 
     if not show_done:
         filtered_tasks = [t for t in filtered_tasks if not t["done"]]
 
     if priority is not None:
-        # BUG PROPOSITAL: filtro invertido
         filtered_tasks = [
             t for t in filtered_tasks
-            if t["priority"].lower() != priority.lower()
+            if t["priority"].lower() == priority.lower()
         ]
 
     return filtered_tasks
