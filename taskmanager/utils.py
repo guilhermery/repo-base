@@ -5,7 +5,16 @@ def format_task(task):
     priority = task["priority"].upper()
     return f"{status} | {priority} | #{task['id']} - {task['title']}"
 
-def filter_tasks(tasks, show_done=True):
-    if show_done:
-        return tasks
-    return [t for t in tasks if not t["done"]]
+def filter_tasks(tasks, show_done=True, priority=None):
+    filtered_tasks = tasks
+
+    if not show_done:
+        filtered_tasks = [t for t in filtered_tasks if not t["done"]]
+
+    if priority is not None:
+        filtered_tasks = [
+            t for t in filtered_tasks
+            if t["priority"].lower() == priority.lower()
+        ]
+
+    return filtered_tasks
